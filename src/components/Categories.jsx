@@ -10,16 +10,16 @@ class Categories extends Component {
                     name: 'Всё'
                 },
                 {
-                    key: 'gloves',
-                    name: 'Боксерские перчатки '
+                    key: 'cross',
+                    name: 'Футбольные бутсы '
                 },
                 {
                     key: 'balls',
                     name: 'Футбольные мячи'
                 },
                 {
-                    key: 'rackets',
-                    name: 'Теннисные ракетки'
+                    key: 'perch',
+                    name: 'Футбольные перчатки'
                 },
 
             ],

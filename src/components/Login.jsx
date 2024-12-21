@@ -1,34 +1,57 @@
 import React, { useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Логика авторизации
-        console.log('Авторизация:', { email, password });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleLogin = () => {
+        const storedUser = JSON.parse(localStorage.getItem('user')); // Получаем данные пользователя из localStorage
+
+        if (storedUser && storedUser.email === formData.email && storedUser.password === formData.password) {
+            alert('Login successful!');
+        } else {
+            alert('Invalid email or password!');
+        }
     };
 
     return (
-        <div className="auth-form">
-            <h2>Авторизация</h2>
-            <form onSubmit={handleSubmit}>
-                <input
+        <Form>
+            <Form.Group className="mb-3" controlId="formGroupEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
                     type="email"
-                    placeholder="Введите email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                 />
-                <input
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formGroupPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
                     type="password"
-                    placeholder="Введите пароль"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
                 />
-                <button type="submit">Войти</button>
-            </form>
-        </div>
+            </Form.Group>
+            <Button variant="primary" onClick={handleLogin}>
+                Login
+            </Button>
+        </Form>
     );
 }
 
