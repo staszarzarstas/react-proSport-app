@@ -29,7 +29,6 @@ const Header = (props) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const cartRef = useRef(null);
 
-    // Функция для закрытия корзины при клике вне её
     const handleClickOutside = (event) => {
         if (cartRef.current && !cartRef.current.contains(event.target)) {
             setCart(false);
@@ -62,7 +61,11 @@ const Header = (props) => {
                     <li>Товары</li>
                     <li>Кабинет</li>
                     <li>Контакты</li>
-                    <li>О нас</li>
+                    <li
+                        onClick={() => props.setCurrentPage('about')}  // При клике на "О нас" меняем страницу
+                    >
+                        О нас
+                    </li>
                 </ul>
                 <FaShoppingBag
                     onClick={() => setCart(!cart)}

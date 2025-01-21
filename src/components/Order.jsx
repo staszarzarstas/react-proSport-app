@@ -6,7 +6,6 @@ class Order extends Component {
         return (
             <div className="item">
                <img src={`/react-proSport-app/${this.props.item.img}`} alt={this.props.item.title} />
-
                 <h2>{this.props.item.title}</h2>
                 <b>{this.props.item.price}₽</b>
                 <FaTrash className="delete-icon" onClick={() => (

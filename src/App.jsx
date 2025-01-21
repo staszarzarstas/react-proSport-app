@@ -4,20 +4,18 @@ import Footer from "./components/Footer.jsx";
 import { render } from "react-dom";
 import Items from "./components/Items.jsx";
 import Categories from "./components/Categories.jsx";
-import BrandSide from "./components/BrandSide.jsx";
 import ShowFullItem from "./components/ShowFullItem.jsx";
-import Register from './components/Register.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from './components/Login.jsx';
-import '../src/App.css'
+import '../src/App.css';
+import AuthModal from './components/AuthModal.jsx';
 
-class App
-    extends React.Component {
+class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             orders: [],
             currentItems: [],
+            currentPage: 'home',  // Состояние для текущей страницы
             items: [
                 {
                     id: 1,
@@ -83,7 +81,7 @@ class App
                     category: 'balls',
                     price: '1799',
                 },
-                {   
+                {
                     id: 9,
                     title: "Мяч футбольный PUMA Orbita 3 TB",
                     img: 'ball-3.png',
@@ -91,7 +89,7 @@ class App
                     category: 'balls',
                     price: '7999',
                 },
-             
+
             ],
             showFullItems: false,
             fullItem: {},
@@ -101,24 +99,34 @@ class App
         this.deleteOrder = this.deleteOrder.bind(this);
         this.chooseCategory = this.chooseCategory.bind(this);
         this.onShowItem = this.onShowItem.bind(this);
+        this.setCurrentPage = this.setCurrentPage.bind(this);  // Обработчик для изменения текущей страницы
+    }
+
+    setCurrentPage(page) {
+        this.setState({ currentPage: page });
     }
 
     render() {
+        let content;
+        if (this.state.currentPage === 'home') {
+            content = (
+                <>
+                    <Categories chooseCategory={this.chooseCategory} />
+                    <Items onShowItem={this.onShowItem} items={this.state.currentItems} onAdd={this.addToOrder} />
+                </>
+            );
+        } else if (this.state.currentPage === 'about') {
+            content = <div>Страница "О нас"</div>;
+        }
+
         return (
             <div className='wrapper'>
-                <Header orders={this.state.orders} onDelete={this.deleteOrder} />
-                <Categories chooseCategory={this.chooseCategory} />
-                <Items onShowItem={this.onShowItem} items={this.state.currentItems} onAdd={this.addToOrder} />
-                {this.state.showFullItems &&
-                    <ShowFullItem onAdd={this.addToOrder} onShowItem={this.onShowItem} item={this.state.fullItem} />}
-
+                <AuthModal />
+                <Header orders={this.state.orders} onDelete={this.deleteOrder} setCurrentPage={this.setCurrentPage} />
+                {content}
                 <Footer />
-                
-
-
-
             </div>
-        )
+        );
     }
 
     onShowItem(item) {
@@ -149,4 +157,4 @@ class App
     }
 }
 
-export default App
+export default App;
